@@ -13,7 +13,7 @@
 #   https://github.com/nning/linux-grsec
 #
 
-pkgname=linux-grsec
+pkgname=linux-grsec-laptop
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
 _basekernel=4.4
