@@ -1,0 +1,57 @@
+# Enable grsec
+GRKERNSEC=y
+
+# Grsec will make most of the decisions automatically
+GRKERNSEC_CONFIG_AUTO=y
+
+# Kernel is for desktop use
+GRKERNSEC_CONFIG_DESKTOP=y
+
+# Kernel will not be used for virtual use -- no need to include any such vulnerabilities
+GRKERNSEC_CONFIG_VIRT_NONE=y
+
+# Support Core i processor family
+GRKERNSEC_CONFIG_VIRT_EPT=y
+
+# Prioritize performance
+GRKERNSEC_CONFIG_PRIORITY_PERF=y
+
+# Enable Pax
+PAX=y
+
+# Build with soft-mode support  -- this can be enabled or disabled after compilation if built in
+PAX_SOFTMODE
+
+# Build with per-executable xattr support -- does not work with FS that does not support xattr
+PAX_XATTR_PAX_FLAGS=y
+
+# Recommended in Arch Wiki
+CONFIG_RANDOMIZE_BASE=y
+CONFIG_GRKERNSEC_HIDESYM=y
+
+# No exec breaks java, this does not
+PAX_PAGEEXEC=y
+
+# Strongly recommended
+PAX_MPROTECT=y
+
+# Not recommended for modern linux distros
+PAX_ELFRELOCS=n
+
+# Extendes mproc into kernel land, not just userland
+PAX_KERNEXEC=y
+
+# Stack randomization -- strongly recommended, paxctl can control per-file
+PAX_ASLR=y
+
+# Randomiza mmap requests
+PAX_RANDMMAP=y
+
+# Sanitize memory not in use can be turned off at boot using "pax_sanitize_slab=0"
+PAX_MEMORY_SANITIZE=y
+
+# Eliminate stack leaks
+PAX_MEMORY_STACKLEAK=y
+
+
+
