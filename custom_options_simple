@@ -50,8 +50,54 @@ PAX_RANDMMAP=y
 # Sanitize memory not in use can be turned off at boot using "pax_sanitize_slab=0"
 PAX_MEMORY_SANITIZE=y
 
-# Eliminate stack leaks
+# Eliminate stack leaks, but with performance hit (~1% on single-core). If performance hit is big, use STRUCTLEAK
 PAX_MEMORY_STACKLEAK=y
 
+# A less secure alternative to PAX_MEMORY_STACKLEAK, but with less performance hit
+#CONFIG_PAX_MEMORY_STRUCTLEAK=y
+
+# This may cause huge performance hit from boot. On new Intel architectures, this kernel command may help:
+# pax_weakuderef
+CONFIG_PAX_MEMORY_UDEREF=y
+
+# Prevent overflows in refcount -- no performance issues, recommended
+CONFIG_PAX_REFCOUNT=y
+
+# Automatically constify eligible structures
+CONFIG_PAX_CONSTIFY_PLUGIN=y
+
+# Harden heap object copies between kernel and userland
+CONFIG_PAX_USERCOPY=y
+
+# Prevent various integer overflows in function size parameters
+CONFIG_PAX_SIZE_OVERFLOW=y
+
+# Generate some entropy during boot and runtime -- probably unneccessary on desktop/laptop with user/DE
+# there is a lot of entropy anyway, if used, there is a performance hit
+#CONFIG_PAX_LATENT_ENTROPY=y
+
+
+# Deny reading/writing to /dev/kmem, /dev/mem, and /dev/port
+# BREAKS INTEL PSTATES!! If this doesn't matter, USE THIS
+CONFIG_GRKERNSEC_KMEM=n
+
+# Restrict VM86 mode
+# May break xf86, but unlikely, enable if it doesn't
+CONFIG_GRKERNSEC_VM86=y
+
+# Disable privileged IO
+# Breaks xf86, versions of xorg from before 2012, and hwclock.
+# For these reasons, disabling and using RBAC instead
+# sysctl: kernel.grsecurity.disable_priv_io
+CONFIG_GRKERNSEC_IO=n
+
+# Harden BPF JIT against spray attacks[edit]
+CONFIG_GRKERNSEC_JIT_HARDEN=y
+
+# Disable unprivileged PERF_EVENTS usage by default
+CONFIG_GRKERNSEC_PERF_HARDEN=y
+
+# Insert random gaps between thread stacks
+CONFIG_GRKERNSEC_RAND_THREADSTACK=y
 
 
