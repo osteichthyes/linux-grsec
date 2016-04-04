@@ -58,8 +58,8 @@ build() {
   cd "$srcdir/linux-$_basekernel"
 
   # add upstream patch
-  [ -f "$srcdir/patch-$pkgver" ] &&
-    patch -p1 -i "$srcdir/patch-$pkgver"
+  [ -f "$srcdir/patch-$_kernelver" ] &&
+    patch -p1 -i "$srcdir/patch-$_kernelver"
 
   # set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)
   # remove this when a Kconfig knob is made available by upstream
