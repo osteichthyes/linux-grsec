@@ -17,9 +17,12 @@ pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
 _basekernel=4.4
+_kernelpatchver=6
 _grsecver=3.1
 _timestamp=201604021734
-pkgver=${_basekernel}.6.$_timestamp
+_kernelver=$_basekernel.$_kernelpatchver
+_grsecpatchver=$_grsecver-$_kernelver
+pkgver=$_kernelver.$_timestamp
 pkgrel=2
 arch=(x86_64)
 url='https://github.com/nning/linux-grsec'
@@ -36,7 +39,7 @@ conflicts=(linux-grsec-lts)
 _menuconfig=0
 [ ! -z $MENUCONFIG ] && _menuconfig=$MENUCONFIG
 
-_grsec_patch="grsecurity-$_grsecver-$_basekernel.6-$_timestamp.patch"
+_grsec_patch="grsecurity-$_grsecpatchver-$_timestamp.patch"
 
 source=(
   https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
