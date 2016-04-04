@@ -43,7 +43,7 @@ _grsec_patch="grsecurity-$_grsecpatchver-$_timestamp.patch"
 
 source=(
   https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
-  https://www.kernel.org/pub/linux/kernel/v4.x/patch-$pkgver.xz
+  https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz
   https://grsecurity.net/test/$_grsec_patch{,.sig}
   config.x86_64
   $pkgname.install
