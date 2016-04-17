@@ -45,7 +45,7 @@ source=(
   https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
   https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz
   https://grsecurity.net/test/$_grsec_patch{,.sig}
-  opt-laptop-grsec.config
+  opt-grsec-laptop.config
   $pkgname.install
   $pkgname.preset
   sysctl.conf
