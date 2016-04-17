@@ -22,6 +22,7 @@ _grsecver=3.1
 _timestamp=201604152208
 _kernelver=$_basekernel.$_kernelpatchver
 _grsecpatchver=$_grsecver-$_kernelver
+_config=opt_grsec-laptop
 pkgver=$_kernelver.$_timestamp
 pkgrel=2
 arch=(x86_64)
@@ -45,7 +46,7 @@ source=(
   https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
   https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz
   https://grsecurity.net/test/$_grsec_patch{,.sig}
-  opt-laptop-grsec.config
+  opt-grsec-laptop.config
   $pkgname.install
   $pkgname.preset
   sysctl.conf
@@ -70,7 +71,7 @@ build() {
   patch -Np1 -i "$srcdir/$_grsec_patch"
   rm localversion-grsec
 
-  cat "${srcdir}/config.${CARCH}" > ./.config
+  cat "${srcdir}/${_config}.config" > ./.config
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
@@ -309,8 +310,9 @@ sha256sums=('401d7c8fef594999a460d10c72c5a94e9c2e1022f16795ec51746b0d165418b2'
             '34a0e0bc123fe2224a83e13a4da25f7f816438fd77c58dce19588441f5166f0e'
             '4b950fddc63ef08ef4fb017887a9473d6bf2ad156ce389add50c2a8ab2dffdd6'
             'SKIP'
-            '10389620510b0f0908ec02d24bbacc84624e62dd1ca76d91273fb78094313c7b'
+            '6bc39156cf27854330700763cc42743d814ae0622afb3ba85b4fc9603fac5bb3'
             'b7490046d09f3784e271d1df1c3344042bf7d4b58b2589ebef0e2b929b5d94c5'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
             '520fb5c0b117e2abf6378c7677ab905be89293350661f895dd7b7a06d3622cb3')
+
