@@ -22,7 +22,6 @@ _grsecver=3.1
 _timestamp=201604152208
 _kernelver=$_basekernel.$_kernelpatchver
 _grsecpatchver=$_grsecver-$_kernelver
-_config=opt_grsec-laptop
 pkgver=$_kernelver.$_timestamp
 pkgrel=2
 arch=(x86_64)
@@ -46,7 +45,7 @@ source=(
   https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
   https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz
   https://grsecurity.net/test/$_grsec_patch{,.sig}
-  opt-grsec-laptop.config
+  config.x86_64
   $pkgname.install
   $pkgname.preset
   sysctl.conf
@@ -71,7 +70,7 @@ build() {
   patch -Np1 -i "$srcdir/$_grsec_patch"
   rm localversion-grsec
 
-  cat "${srcdir}/${_config}.config" > ./.config
+  cat "${srcdir}/config.${CARCH}" > ./.config
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
