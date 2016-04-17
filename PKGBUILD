@@ -17,9 +17,9 @@ pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
 _basekernel=4.4
-_kernelpatchver=6
+_kernelpatchver=7
 _grsecver=3.1
-_timestamp=201604100830
+_timestamp=201604152208
 _kernelver=$_basekernel.$_kernelpatchver
 _grsecpatchver=$_grsecver-$_kernelver
 pkgver=$_kernelver.$_timestamp
@@ -42,8 +42,8 @@ _menuconfig=0
 _grsec_patch="grsecurity-$_grsecpatchver-$_timestamp.patch"
 
 source=(
-  https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
-  https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz
+  https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz{,.sig}
+  https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz{,.sig}
   https://grsecurity.net/test/$_grsec_patch{,.sig}
   config.x86_64
   $pkgname.install
