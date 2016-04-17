@@ -22,6 +22,7 @@ _grsecver=3.1
 _timestamp=201604152208
 _kernelver=$_basekernel.$_kernelpatchver
 _grsecpatchver=$_grsecver-$_kernelver
+_config=opt_grsec-laptop
 pkgver=$_kernelver.$_timestamp
 pkgrel=2
 arch=(x86_64)
@@ -70,7 +71,7 @@ build() {
   patch -Np1 -i "$srcdir/$_grsec_patch"
   rm localversion-grsec
 
-  cat "${srcdir}/config.${CARCH}" > ./.config
+  cat "${srcdir}/${_config}.config" > ./.config
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
