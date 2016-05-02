@@ -16,10 +16,10 @@
 pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
-_basekernel=4.4
-_kernelpatchver=8
+_basekernel=4.5
+_kernelpatchver=2
 _grsecver=3.1
-_timestamp=201604252206
+_timestamp=201604290633
 _kernelver=$_basekernel.$_kernelpatchver
 _grsecpatchver=$_grsecver-$_kernelver
 pkgver=$_kernelver.$_timestamp
