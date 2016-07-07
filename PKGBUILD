@@ -19,7 +19,7 @@ _kernelname=${pkgname#linux}
 _basekernel=4.6
 _kernelpatchver=3
 _grsecver=3.1
-_timestamp=201607051723
+_timestamp=201607062159
 _kernelver=$_basekernel.$_kernelpatchver
 _grsecpatchver=$_grsecver-$_kernelver
 pkgver=$_kernelver.$_timestamp
@@ -137,10 +137,10 @@ package_linux-grsec() {
   make INSTALL_MOD_PATH="${pkgdir}" modules_install
   cp arch/$KARCH/boot/bzImage "${pkgdir}/boot/vmlinuz-${pkgname}"
 
-  # add vmlinux and gcc plugins
+  # add vmlinux and gcc plugins TURN OFF GCC PLUGINS ELSE BUILD FAILS
   install -Dm644 vmlinux "$pkgdir/usr/src/linux-$_kernver/vmlinux"
   mkdir -p "$pkgdir/usr/src/linux-$_kernver/tools/gcc"
-  install -m644 tools/gcc/*.so "$pkgdir/usr/src/linux-$_kernver/tools/gcc/"
+#  install -m644 tools/gcc/*.so "$pkgdir/usr/src/linux-$_kernver/tools/gcc/"
 
   # install fallback mkinitcpio.conf file and preset file for kernel
   install -D -m644 "${srcdir}/${pkgname}.preset" "${pkgdir}/etc/mkinitcpio.d/${pkgname}.preset"
@@ -305,11 +305,11 @@ package_linux-grsec-headers() {
   rm -rf "${pkgdir}"/usr/lib/modules/${_kernver}/build/arch/{alpha,arc,arm,arm26,arm64,avr32,blackfin,c6x,cris,frv,h8300,hexagon,ia64,m32r,m68k,m68knommu,metag,mips,microblaze,mn10300,openrisc,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,unicore32,um,v850,xtensa}
 }
 
-sha256sums=('a40defb401e01b37d6b8c8ad5c1bbab665be6ac6310cdeed59950c96b31a519c'
-            '02a1a3fb190031130f6a304a1d3ebb72ce0b4e6dcc608c9e423780e4df10dec7'
-            '03460a08c20604060cae41d38d5a9faf39e762cfd9a01559159750bba69f2563'
+sha256sums=('a93771cd5a8ad27798f22e9240538dfea48d3a2bf2a6a6ab415de3f02d25d866'
+            '036f83f8a3475d9e7e0b8edc188f9a4f495abc3b187ed87748cdbc063c0c419f'
+            '92593ada392dcca794b63f41a379a84a32b1bb7eda10abad2a2fd2eba0b61a63'
             'SKIP'
-            '0b049a06a947870e81156267962048d26e34a62253fcfd85a937681bce0caa28'
+            '0eb316d6dc48716be8c7af30cfbe2765be5679916679e0955bbc89ee4608c097'
             'b7490046d09f3784e271d1df1c3344042bf7d4b58b2589ebef0e2b929b5d94c5'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
