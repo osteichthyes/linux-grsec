@@ -20,11 +20,12 @@ _basekernel=4.7
 _kernelpatchver=0
 _grsecver=3.1
 _timestamp=201608131240
-if [$_kernelpatchver=0]
+if [ "$_kernelpatchver" = 0 ]; then
 	_kernelver=$_basekernel
 else
 	_kernelver=$_basekernel.$_kernelpatchver
 fi
+echo $_kernelver
 _grsecpatchver=$_grsecver-$_kernelver
 pkgver=$_kernelver.$_timestamp
 pkgrel=2
