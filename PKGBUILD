@@ -16,10 +16,10 @@
 pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
-_basekernel=4.6
-_kernelpatchver=5
+_basekernel=4.7
+_kernelpatchver=0
 _grsecver=3.1
-_timestamp=201607312210
+_timestamp=201608131240
 _kernelver=$_basekernel.$_kernelpatchver
 _grsecpatchver=$_grsecver-$_kernelver
 pkgver=$_kernelver.$_timestamp
@@ -309,7 +309,7 @@ sha256sums=('a93771cd5a8ad27798f22e9240538dfea48d3a2bf2a6a6ab415de3f02d25d866'
             '857df33f085a0116b9d2322ffe3b23d5b7d8c4898427d79f68108a653e84910c'
             '1c5c85ebb5cab533196a05a37fd6e4c2ea5c09bdf2b5d571c77b8a04b8b9b69d'
             'SKIP'
-            '0eb316d6dc48716be8c7af30cfbe2765be5679916679e0955bbc89ee4608c097'
+            '75455a886e40108abd056165b00eeaf327daf7f898e053659b2f572a2a563acf'
             '866a0deae50d0ee5babaa07b2ea99ef4a206b513374c41899fa8b7d3a1ac18f9'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
