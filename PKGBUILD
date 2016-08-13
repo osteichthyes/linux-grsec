@@ -310,9 +310,10 @@ package_linux-grsec-headers() {
   rm -rf "${pkgdir}"/usr/lib/modules/${_kernver}/build/arch/{alpha,arc,arm,arm26,arm64,avr32,blackfin,c6x,cris,frv,h8300,hexagon,ia64,m32r,m68k,m68knommu,metag,mips,microblaze,mn10300,openrisc,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,unicore32,um,v850,xtensa}
 }
 
-sha256sums=('a93771cd5a8ad27798f22e9240538dfea48d3a2bf2a6a6ab415de3f02d25d866'
-            '857df33f085a0116b9d2322ffe3b23d5b7d8c4898427d79f68108a653e84910c'
-            '1c5c85ebb5cab533196a05a37fd6e4c2ea5c09bdf2b5d571c77b8a04b8b9b69d'
+4.7
+sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
+            '2f0c42f241112fa5cb3396fc68afba95a3048c7da7b7875b668e80ff67618164'
+            '6d3b1435f130a5369c15e4f178cb468b94e5ac508606ca7827ce96d90f79962d'
             'SKIP'
             '75455a886e40108abd056165b00eeaf327daf7f898e053659b2f572a2a563acf'
             '866a0deae50d0ee5babaa07b2ea99ef4a206b513374c41899fa8b7d3a1ac18f9'
