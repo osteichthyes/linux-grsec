@@ -25,7 +25,6 @@ if [ "$_kernelpatchver" = 0 ]; then
 else
 	_kernelver=$_basekernel.$_kernelpatchver
 fi
-echo $_kernelver
 _grsecpatchver=$_grsecver-$_kernelver
 pkgver=$_kernelver.$_timestamp
 pkgrel=2
@@ -310,7 +309,6 @@ package_linux-grsec-headers() {
   rm -rf "${pkgdir}"/usr/lib/modules/${_kernver}/build/arch/{alpha,arc,arm,arm26,arm64,avr32,blackfin,c6x,cris,frv,h8300,hexagon,ia64,m32r,m68k,m68knommu,metag,mips,microblaze,mn10300,openrisc,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,unicore32,um,v850,xtensa}
 }
 
-4.7
 sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
             '2f0c42f241112fa5cb3396fc68afba95a3048c7da7b7875b668e80ff67618164'
             '6d3b1435f130a5369c15e4f178cb468b94e5ac508606ca7827ce96d90f79962d'
