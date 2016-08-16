@@ -17,20 +17,18 @@ pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
 _basekernel=4.7
-_kernelpatchver=0
+_kernelpatchver=1
 _grsecver=3.1
-_timestamp=201608131240
-if [ "$_kernelpatchver" = 0 ]; then
+_timestamp=201608161813
+if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
-	source=(
+	sourcea=(
 		https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
 		)
 else
 	_kernelver=$_basekernel.$_kernelpatchver
-	source=(
-		https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
-		https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz
-		)
+		sourcea="https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz"
+		
 fi
 _grsecpatchver=$_grsecver-$_kernelver
 pkgver=$_kernelver.$_timestamp
@@ -53,7 +51,7 @@ _menuconfig=0
 _grsec_patch="grsecurity-$_grsecpatchver-$_timestamp.patch"
 
 source=(
-  $source
+  $sourcea
   https://grsecurity.net/test/$_grsec_patch{,.sig}
   config.x86_64
   $pkgname.install
@@ -316,7 +314,8 @@ package_linux-grsec-headers() {
 }
 
 sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
-            '6d3b1435f130a5369c15e4f178cb468b94e5ac508606ca7827ce96d90f79962d'
+            '838fa595436fbf9f70759aa43c1cacd83cc0adc95d166648c1625ebd50fad04e'
+            'f2de5ba6948de3539ffd7fb1fede35acce9b2165efd8b8a49a87d6b31ff2ea5e'
             'SKIP'
             'e6cc5b7b6ab6c7fc1a8caba4b839d4246c6737b04b1e158a8cbabf38c4e38566'
             '70e050f5facb85e222402617fe4056c14ca8cd183044028d0c32ec5507e3a416'
