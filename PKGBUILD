@@ -17,9 +17,9 @@ pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
 _basekernel=4.7
-_kernelpatchver=1
+_kernelpatchver=2
 _grsecver=3.1
-_timestamp=201608161813
+_timestamp=201608211829
 if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
 	sourcea=(
@@ -314,11 +314,11 @@ package_linux-grsec-headers() {
 }
 
 sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
-            '838fa595436fbf9f70759aa43c1cacd83cc0adc95d166648c1625ebd50fad04e'
-            'f2de5ba6948de3539ffd7fb1fede35acce9b2165efd8b8a49a87d6b31ff2ea5e'
+            '031cb0e7b86f2ef2cc4d0dde9d73495f68e8d23e4c41f50f7f95b065ee33a71d'
+            'c35bd6b71cbc58f2dd83f254684f14d95e2ae3ffbb23ce894ef2f05356ddf7a8'
             'SKIP'
-            '4a64c15448af07a6c7244e3402c6b2dd0b45fdfac57ed56ebcb0b7a64790c9a4'
-            'b7490046d09f3784e271d1df1c3344042bf7d4b58b2589ebef0e2b929b5d94c5'
+            '361719980c2e0329912feb48fa3c5ca1b9b3412c3cb780cb9f0738f0fc8b5fe2'
+            'dddf20601ea3d9186ef0415ee825597f684d22722c3547d60a0e8c36f915bbe5'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
             '520fb5c0b117e2abf6378c7677ab905be89293350661f895dd7b7a06d3622cb3')
