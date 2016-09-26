@@ -19,7 +19,7 @@ _kernelname=${pkgname#linux}
 _basekernel=4.7
 _kernelpatchver=4
 _grsecver=3.1
-_timestamp=201609152234
+_timestamp=201609211951
 if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
 	sourcea=(
@@ -315,9 +315,9 @@ package_linux-grsec-headers() {
 
 sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
             'a7e9415d35cee130f2ea5ae4edc652d4be784d9bbfd77e850f1e999f812b2116'
-            'a388aacfe63b51581933ede96ff8590097f3911a86f515f9c07695dbc2a2240c'
+            'de2c177087eab2d659931037a4297db022d64c8b4178c0b9009cef4c00edb440'
             'SKIP'
-            '61ea1c07ecabfd1d906695e3dc9a73d5f7c80e4c02cffd8cc3e2be9d8ea322b7'
+            '4516af7d74db74db318c7a6e35c62796f2e714ebae4abebd1f1959cfb4d955d9'
             'c97157529c022dc89d9d85040851d044ed6536893e027a5ddb26aabb08c99fe4'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
