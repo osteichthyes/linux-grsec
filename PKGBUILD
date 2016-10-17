@@ -314,8 +314,8 @@ package_linux-grsec-headers() {
 }
 
 sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
-            'b1019b88cbced3eced1fe0a908eaac061282f39c559eaa3ea0fd3ee1b089e17e'
-            'a44bbf5765de6865b36dd5a22cb3bfaff88da87c4e8f4af14b700d207b7ea8a3'
+            'd2cf10bbf9ae8746f7e57f9a34beef6031944541e6cc8ac07f0948dbbcb09fa4'
+            '408e7e9a51bfb776cd54dc6fd6de82105925827b485b1a4a452f5857a49111c6'
             'SKIP'
             '54d621d7b3a0e7920690571ec28da7a9e88ad85f02bf1835e78bdda0416fd747'
             '1c21ede7041a8147bd59dcd19b6f6439c1ca453943ca87e5d483806b552c7d74'
