@@ -19,7 +19,7 @@ _kernelname=${pkgname#linux}
 _basekernel=4.7
 _kernelpatchver=10
 _grsecver=3.1
-_timestamp=201610262029
+_timestamp=201611011946
 if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
 	sourcea=(
