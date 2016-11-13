@@ -17,9 +17,9 @@ pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
 _basekernel=4.8
-_kernelpatchver=6
+_kernelpatchver=7
 _grsecver=3.1
-_timestamp=201611091800
+_timestamp=201611102210
 if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
 	sourcea=(
@@ -313,9 +313,9 @@ package_linux-grsec-headers() {
   rm -rf "${pkgdir}"/usr/lib/modules/${_kernver}/build/arch/{alpha,arc,arm,arm26,arm64,avr32,blackfin,c6x,cris,frv,h8300,hexagon,ia64,m32r,m68k,m68knommu,metag,mips,microblaze,mn10300,openrisc,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,unicore32,um,v850,xtensa}
 }
 
-sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
-            '0ccdd4ccb962d542108a23e83498f07ec981bb629c77e2355ca25297cea47b93'
-            '14430c58f81e5edca07d544e11354a6b7f8f50db7d51f73ba350937c00086a5b'
+sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
+            '94213e7557d192d1054e352aec18e93275ed5a84abe190d43fd43847d1d86efe'
+            'd00203ad69480242aeddf1eab70ac8396c14624a140d3f7972d212ff37dcead8'
             'SKIP'
             '4587eef81c2002849195c82057414d2fdd67961136b599aec7c1356ced47e566'
             '38ad5fbb2b85407ec602854fd77a88c1755b6231ec602243bd61b7c4bf655b13'
