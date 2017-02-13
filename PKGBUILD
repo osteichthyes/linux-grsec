@@ -16,10 +16,10 @@
 pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
-_basekernel=4.8
-_kernelpatchver=15
+_basekernel=4.9
+_kernelpatchver=9
 _grsecver=3.1
-_timestamp=201612151923
+_timestamp=201702122044
 if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
 	sourcea=(
@@ -148,7 +148,7 @@ package_linux-grsec() {
   # add vmlinux and gcc plugins TURN OFF GCC PLUGINS ELSE BUILD FAILS
   install -Dm644 vmlinux "$pkgdir/usr/src/linux-$_kernver/vmlinux"
   mkdir -p "$pkgdir/usr/src/linux-$_kernver/tools/gcc"
-#  install -m644 tools/gcc/*.so "$pkgdir/usr/src/linux-$_kernver/tools/gcc/"
+  install -m644 tools/gcc/*.so "$pkgdir/usr/src/linux-$_kernver/tools/gcc/"
 
   # install fallback mkinitcpio.conf file and preset file for kernel
   install -D -m644 "${srcdir}/${pkgname}.preset" "${pkgdir}/etc/mkinitcpio.d/${pkgname}.preset"
@@ -313,12 +313,12 @@ package_linux-grsec-headers() {
   rm -rf "${pkgdir}"/usr/lib/modules/${_kernver}/build/arch/{alpha,arc,arm,arm26,arm64,avr32,blackfin,c6x,cris,frv,h8300,hexagon,ia64,m32r,m68k,m68knommu,metag,mips,microblaze,mn10300,openrisc,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,unicore32,um,v850,xtensa}
 }
 
-sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
-            'cdeff3a6e0dc3d6189d1b1d4d6318f0942b9a28409491cf65592879e4c42b1f7'
-            '09a9ec0078c8fa6e9ab71ad7d669aba275b94b3b1cd9bcd35bf1580d16d824b6'
+sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
+            'ec97e3bf8585865d409a804316b276a6b4e4939286de9757f99bfb41cf112078'
+            '7c083074243f81ea7130e17047a8e4f0be6f3cdcd4be0313764c4b5a4106306e'
             'SKIP'
-            '38af3f5e6c18e3b0b81fb1c7fd2645016078797770172868927c0417d7843445'
-            '165c31061f37c1a067e59b9242847cdcbf8897e4233179c2ae9f403af2541e18'
+            '4a20f5bacb1cb497ccf23affd4b315b844998e994b6e93d76ad0073a3e0e1c42'
+            '135a21f8f75ff8d5a10030fcc15bb314d8e1753c4a574bfa6e11d4955f9601d0'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
             '520fb5c0b117e2abf6378c7677ab905be89293350661f895dd7b7a06d3622cb3')
