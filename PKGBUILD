@@ -60,7 +60,11 @@ source=(
   module-blacklist.conf
 )
 
-validpgpkeys=('DE9452CE46F42094907F108B44D1C0F82525FE49')
+validpgpkeys=(
+  ABAF11C65A2970B130ABE3C479BE3E4300411886 # Linus Torvalds
+  647F28654894E3BD457199BE38DBBDC86092693E # Greg Kroah-Hartman
+  DE9452CE46F42094907F108B44D1C0F82525FE49 # Bradley Spengler
+)
 
 build() {
   cd "$srcdir/linux-$_basekernel"
@@ -148,7 +152,7 @@ package_linux-grsec() {
   # add vmlinux and gcc plugins TURN OFF GCC PLUGINS ELSE BUILD FAILS
   install -Dm644 vmlinux "$pkgdir/usr/src/linux-$_kernver/vmlinux"
   mkdir -p "$pkgdir/usr/src/linux-$_kernver/tools/gcc"
-  install -m644 tools/gcc/*.so "$pkgdir/usr/src/linux-$_kernver/tools/gcc/"
+#  install -m644 tools/gcc/*.so "$pkgdir/usr/src/linux-$_kernver/tools/gcc/"
 
   # install fallback mkinitcpio.conf file and preset file for kernel
   install -D -m644 "${srcdir}/${pkgname}.preset" "${pkgdir}/etc/mkinitcpio.d/${pkgname}.preset"
@@ -318,7 +322,7 @@ sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             '7c083074243f81ea7130e17047a8e4f0be6f3cdcd4be0313764c4b5a4106306e'
             'SKIP'
             '4a20f5bacb1cb497ccf23affd4b315b844998e994b6e93d76ad0073a3e0e1c42'
-            '135a21f8f75ff8d5a10030fcc15bb314d8e1753c4a574bfa6e11d4955f9601d0'
+            '29982dfefb38385ea478cb944c424e7a5cfd2fee36c32c574359a6ff89c606dd'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
             '520fb5c0b117e2abf6378c7677ab905be89293350661f895dd7b7a06d3622cb3')
