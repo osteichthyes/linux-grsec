@@ -23,12 +23,14 @@ _timestamp=201702181444
 if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
 	sourcea=(
-		https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
+		https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.{xz,sign}
 		)
 else
 	_kernelver=$_basekernel.$_kernelpatchver
-		sourcea="https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz"
-		
+		sourcea=(
+		https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.{xz,sign} 
+		https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.{xz,sign}
+		)
 fi
 _grsecpatchver=$_grsecver-$_kernelver
 pkgver=$_kernelver.$_timestamp
@@ -318,11 +320,10 @@ package_linux-grsec-headers() {
 }
 
 sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
-            '23e773a670f3cac11a92c4e442405dea6d2c28fea0f914ea2ba4bea313c26541'
             '4106f5e4a50d47e6304bf2179fdbd20608a303d736813c4968f9c827d583691c'
             'SKIP'
-            '4c051ea50023df8f0063998542351dbe5d229a7ba8f205a0e758eff819024868'
-            '1273eceb531aa625010bbaa040238222cf85442b4ccb361f54765c6f0b89f647'
+            'a4dd13e2832c2e2b2afe4922b1dc92ead2bc3b01a6fad24e0a0af5a6c77a90d6'
+            'cfc0b986781b68d330d41c089689f5f5729ac557e96e0997ea82ad809acb4c46'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
             '520fb5c0b117e2abf6378c7677ab905be89293350661f895dd7b7a06d3622cb3')
