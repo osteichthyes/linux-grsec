@@ -17,19 +17,21 @@ pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
 _basekernel=4.9
-_kernelpatchver=11
+_kernelpatchver=13
 _grsecver=3.1
-_timestamp=201702181444
+_timestamp=201703052141
 if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
 	sourcea=(
-		https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.{xz,sign}
+		 https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.{xz,sign}
 		)
 else
 	_kernelver=$_basekernel.$_kernelpatchver
 		sourcea=(
-		https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.{xz,sign} 
-		https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.{xz,sign}
+		 "https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
+		 https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.sign
+		 https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz
+		 https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.sign"
 		)
 fi
 _grsecpatchver=$_grsecver-$_kernelver
@@ -320,10 +322,13 @@ package_linux-grsec-headers() {
 }
 
 sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
-            '4106f5e4a50d47e6304bf2179fdbd20608a303d736813c4968f9c827d583691c'
             'SKIP'
-            'a4dd13e2832c2e2b2afe4922b1dc92ead2bc3b01a6fad24e0a0af5a6c77a90d6'
-            'cfc0b986781b68d330d41c089689f5f5729ac557e96e0997ea82ad809acb4c46'
+            '87a0f07dd393e2d08850f0536417d091684535ff0c8ab8f8d9aeab1db38589bf'
+            'SKIP'
+            '811435c8e888e3d116715700b3b8f851b80f5fd746c1cbaaef1fb54ba2bc1fb8'
+            'SKIP'
+            '21b1d101a75f5f61d84f7b5a25ef849751b1f6d081ff7ed7971d83e22a575936'
+            '2bcd1d939ad4f746e578291290109a21d1684035ac128d4635668c5c83fbe0a7'
             'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
             '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
             '520fb5c0b117e2abf6378c7677ab905be89293350661f895dd7b7a06d3622cb3')
