@@ -2,7 +2,7 @@
 # arg 2:  the old package version
 
 KERNEL_NAME=-grsec
-KERNEL_VERSION=4.9.14-2-grsec
+KERNEL_VERSION=4.9.15-2-grsec
 
 _add_tpe_group() {
   if getent group tpe-trusted >/dev/null; then
