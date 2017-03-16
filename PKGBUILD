@@ -17,9 +17,9 @@ pkgname=linux-grsec
 true && pkgname=(linux-grsec linux-grsec-headers)
 _kernelname=${pkgname#linux}
 _basekernel=4.9
-_kernelpatchver=14
+_kernelpatchver=15
 _grsecver=3.1
-_timestamp=201703121245
+_timestamp=201703150049
 if [ "$_kernelpatchver" == 0 ]; then
 	_kernelver=$_basekernel
 	sourcea=(
