@@ -1,183 +1,153 @@
-# Original kernel maintainers:
-#   Tobias Powalowski <tpowa@archlinux.org>
-#   Thomas Baechler <thomas@archlinux.org>
-#
-# Contributors:
-#   henning mueller <henning@orgizm.net>
-#   Thomas Dwyer http://tomd.tel
-#
-# Find this package in the AUR:
-#   https://aur.archlinux.org/packages/linux-grsec
-#
-# Please report bugs and feature requests on GitHub:
-#   https://github.com/nning/linux-grsec
-#
+# $Id$
+# Maintainer: Daniel Micay <danielmicay@gmail.com>
+# Contributor: Tobias Powalowski <tpowa@archlinux.org>
+# Contributor: Thomas Baechler <thomas@archlinux.org>
+# Contributor: henning mueller <henning@orgizm.net>
+# Contributor: Thomas Dwyer http://tomd.tel
 
-pkgname=linux-grsec
-true && pkgname=(linux-grsec linux-grsec-headers)
-_kernelname=${pkgname#linux}
-_basekernel=4.9
-_kernelpatchver=16
+pkgbase=linux-grsec
+_srcname=linux-4.9
+_pkgver=4.9.22
 _grsecver=3.1
-_timestamp=201703180820
-if [ "$_kernelpatchver" == 0 ]; then
-	_kernelver=$_basekernel
-	sourcea=(
-		 https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.{xz,sign}
-		)
-else
-	_kernelver=$_basekernel.$_kernelpatchver
-		sourcea=(
-		 "https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.xz
-		 https://www.kernel.org/pub/linux/kernel/v4.x/linux-$_basekernel.tar.sign
-		 https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.xz
-		 https://www.kernel.org/pub/linux/kernel/v4.x/patch-$_kernelver.sign"
-		)
-fi
-_grsecpatchver=$_grsecver-$_kernelver
-pkgver=$_kernelver.$_timestamp
-pkgrel=2
-arch=(x86_64)
-url='https://github.com/nning/linux-grsec'
-license=(GPL2)
-options=(!strip)
-makedepends=(bc)
-conflicts=(linux-grsec-lts)
+_timestamp=201704120836
+_grsec_patch="grsecurity-$_grsecver-$_pkgver-$_timestamp.patch"
+epoch=2
+pkgver=$_pkgver.r$_timestamp
+pkgrel=1
+arch=('i686' 'x86_64')
+url=https://grsecurity.net/
+license=('GPL2')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
+options=('!strip')
+source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${_pkgver}.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${_pkgver}.sign"
+        "https://grsecurity.net/test/$_grsec_patch"
+        "https://grsecurity.net/test/${_grsec_patch}.sig"
+        # the main kernel config files
+        'config.x86_64'
+        # pacman hook for initramfs regeneration
+        '99-linux.hook'
+        # standard config files for mkinitcpio ramdisk
+        'linux.preset'
+        'change-default-console-loglevel.patch'
+        )
 
-[ "$1" = '-v' ] && echo $pkgver $_timestamp
-
-# The MENUCONFIG environment variable controls the invokation of the kernel
-# configuration (see line 91). 0 does not run menuconfig (default), 1 runs
-# menuconfig and exits, 2 runs menuconfig and builds the kernel.
-_menuconfig=0
-[ ! -z $MENUCONFIG ] && _menuconfig=$MENUCONFIG
-
-_grsec_patch="grsecurity-$_grsecpatchver-$_timestamp.patch"
-
-source=(
-  $sourcea
-  https://grsecurity.net/test/$_grsec_patch{,.sig}
-  config.x86_64
-  $pkgname.install
-  $pkgname.preset
-  sysctl.conf
-  module-blacklist.conf
-)
-
+sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
+            'SKIP'
+            '9f8a8d00a22771602b0c9ddb6bf79d8f215973f1e118e2cf19d8822e0fd183cf'
+            'SKIP'
+            '9536e2c4c622c3c423d882ca54d6e79184aa872b7125e0192422fcadd405b655'
+            'SKIP'
+            'e2de3ff72c72c880d04bab51c01db53e13dc73c4d2fca88dfaae4fe0d7166077'
+            '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
+            'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
+            '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99')
 validpgpkeys=(
-  ABAF11C65A2970B130ABE3C479BE3E4300411886 # Linus Torvalds
-  647F28654894E3BD457199BE38DBBDC86092693E # Greg Kroah-Hartman
-  DE9452CE46F42094907F108B44D1C0F82525FE49 # Bradley Spengler
+              'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
+              '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
+              'DE9452CE46F42094907F108B44D1C0F82525FE49' # Bradley Spengler
 )
 
-build() {
-  cd "$srcdir/linux-$_basekernel"
+_kernelname=${pkgbase#linux}
+
+prepare() {
+  cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  [ -f "$srcdir/patch-$_kernelver" ] &&
-    patch -p1 -i "$srcdir/patch-$_kernelver"
+  patch -p1 -i "${srcdir}/patch-${_pkgver}"
+
+  # add latest fixes from stable queue, if needed
+  # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
 
   # set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)
   # remove this when a Kconfig knob is made available by upstream
   # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
-  sed -i 's/DEFAULT_CONSOLE_LOGLEVEL 7/DEFAULT_CONSOLE_LOGLEVEL 4/' kernel/printk/printk.c
+  patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
   # Add grsecurity patches
   patch -Np1 -i "$srcdir/$_grsec_patch"
   rm localversion-grsec
 
-  cat "${srcdir}/config.${CARCH}" > ./.config
+  if [ "${CARCH}" = "x86_64" ]; then
+    cat "${srcdir}/config.x86_64" > ./.config
+  else
+    cat "${srcdir}/config" > ./.config
+  fi
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
+    sed -i "s|CONFIG_LOCALVERSION_AUTO=.*|CONFIG_LOCALVERSION_AUTO=n|" ./.config
   fi
 
   # set extraversion to pkgrel
-  sed -ri "s|^(EXTRAVERSION =).*|\1 -${pkgrel}|" Makefile
+  sed -ri "s|^(EXTRAVERSION =).*|\1 .r$_timestamp-${pkgrel}|" Makefile
 
   # don't run depmod on 'make install'. We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
 
   # get kernel version
-  [ "$_menuconfig" = "0" ] && {
-    make prepare
-  }
+  make prepare
 
+  # load configuration
   # Configure the kernel. Replace the line below with one of your choice.
-  [ "$_menuconfig" -gt "0" ] && {
-    make menuconfig # CLI menu for configuration
-    #make nconfig # new CLI menu for configuration
-    #make xconfig # X-based configuration
-    #make oldconfig # using old config from previous kernel version
-    # ... or manually edit .config
-  }
+  make menuconfig # CLI menu for configuration
+  #make nconfig # new CLI menu for configuration
+  #make xconfig # X-based configuration
+  #make oldconfig # using old config from previous kernel version
+  # ... or manually edit .config
 
-  ####################
-  # stop here
-  # this is useful to configure the kernel
-  [ "$_menuconfig" = "1" ] && {
-    msg "Stopping build"
-    return 1
-  }
-  ####################
-
-  yes "" | make config
-
-  # build!
-  make ${MAKEFLAGS} bzImage modules
+  # rewrite configuration
+  yes "" | make config >/dev/null
 }
 
-package_linux-grsec() {
-  pkgdesc="The Linux Kernel and modules with grsecurity/PaX patches"
-  groups=('base')
-  depends=('gradm' 'paxctld' 'coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=0.7')
-  optdepends=('crda: to set the correct wireless channels of your country')
-  provides=('kernel26-grsec')
-  conflicts=('kernel26-grsec')
-  replaces=('kernel26-grsec')
-  backup=(
-    etc/mkinitcpio.d/$pkgname.preset
-    etc/modprobe.d/dma.conf
-    etc/sysctl.d/05-grsecurity.conf
-  )
-  install=${pkgname}.install
+build() {
+  cd "${srcdir}/${_srcname}"
 
-  cd "$srcdir/linux-$_basekernel"
+  make ${MAKEFLAGS} LOCALVERSION= bzImage modules
+}
+
+_package() {
+  pkgdesc="The Linux kernel and modules with grsecurity/PaX patches"
+  [ "${pkgbase}" = "linux" ] && groups=('base')
+  depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=0.7' 'grsec-common')
+  optdepends=('crda: to set the correct wireless channels of your country'
+              'gradm: to configure and enable Role Based Access Control (RBAC)'
+              'paxd: to enable PaX exploit mitigations and apply exceptions automatically')
+  backup=("etc/mkinitcpio.d/${pkgbase}.preset")
+  install=${pkgbase}.install
+
+  cd "${srcdir}/${_srcname}"
 
   KARCH=x86
 
   # get kernel version
-  _kernver="$(make kernelrelease)"
+  _kernver="$(make LOCALVERSION= kernelrelease)"
+  _basekernel=${_kernver%%-*}
+  _basekernel=${_basekernel%.*}
 
   mkdir -p "${pkgdir}"/{lib/modules,lib/firmware,boot}
-  make INSTALL_MOD_PATH="${pkgdir}" modules_install
-  cp arch/$KARCH/boot/bzImage "${pkgdir}/boot/vmlinuz-${pkgname}"
-
-  # add vmlinux and gcc plugins TURN OFF GCC PLUGINS ELSE BUILD FAILS
-  install -Dm644 vmlinux "$pkgdir/usr/src/linux-$_kernver/vmlinux"
-  mkdir -p "$pkgdir/usr/src/linux-$_kernver/tools/gcc"
-#  install -m644 tools/gcc/*.so "$pkgdir/usr/src/linux-$_kernver/tools/gcc/"
-
-  # install fallback mkinitcpio.conf file and preset file for kernel
-  install -D -m644 "${srcdir}/${pkgname}.preset" "${pkgdir}/etc/mkinitcpio.d/${pkgname}.preset"
+  make LOCALVERSION= INSTALL_MOD_PATH="${pkgdir}" modules_install
+  cp arch/$KARCH/boot/bzImage "${pkgdir}/boot/vmlinuz-${pkgbase}"
 
   # set correct depmod command for install
-  sed \
-    -e  "s/KERNEL_NAME=.*/KERNEL_NAME=${_kernelname}/g" \
-    -e  "s/KERNEL_VERSION=.*/KERNEL_VERSION=${_kernver}/g" \
-    -i "${startdir}/${pkgname}.install"
-  sed \
-    -e "s|ALL_kver=.*|ALL_kver=\"/boot/vmlinuz-${pkgname}\"|g" \
-    -e "s|default_image=.*|default_image=\"/boot/initramfs-${pkgname}.img\"|g" \
-    -e "s|fallback_image=.*|fallback_image=\"/boot/initramfs-${pkgname}-fallback.img\"|g" \
-    -i "${pkgdir}/etc/mkinitcpio.d/${pkgname}.preset"
+  sed -e "s|%PKGBASE%|${pkgbase}|g;s|%KERNVER%|${_kernver}|g" \
+    "${startdir}/${install}" > "${startdir}/${install}.pkg"
+  true && install=${install}.pkg
+
+  # install mkinitcpio preset file for kernel
+  sed "s|%PKGBASE%|${pkgbase}|g" "${srcdir}/linux.preset" |
+    install -D -m644 /dev/stdin "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
+
+  # install pacman hook for initramfs regeneration
+  sed "s|%PKGBASE%|${pkgbase}|g" "${srcdir}/99-linux.hook" |
+    install -D -m644 /dev/stdin "${pkgdir}/usr/share/libalpm/hooks/99-${pkgbase}.hook"
 
   # remove build and source links
   rm -f "${pkgdir}"/lib/modules/${_kernver}/{source,build}
   # remove the firmware
   rm -rf "${pkgdir}/lib/firmware"
-  # gzip -9 all modules to save 100MB of space
-  find "${pkgdir}" -name '*.ko' -exec gzip -9 {} \;
   # make room for external modules
   ln -s "../extramodules-${_basekernel}${_kernelname:--ARCH}" "${pkgdir}/lib/modules/${_kernver}/extramodules"
   # add real version for building modules and running depmod from post_install/upgrade
@@ -185,32 +155,22 @@ package_linux-grsec() {
   echo "${_kernver}" > "${pkgdir}/lib/modules/extramodules-${_basekernel}${_kernelname:--ARCH}/version"
 
   # Now we call depmod...
-  depmod -b "$pkgdir" -F System.map "$_kernver"
+  depmod -b "${pkgdir}" -F System.map "${_kernver}"
 
   # move module tree /lib -> /usr/lib
-  mv "$pkgdir/lib" "$pkgdir/usr"
+  mkdir -p "${pkgdir}/usr"
+  mv "${pkgdir}/lib" "${pkgdir}/usr/"
 
-  # Copy sysctl configuration
-  install -Dm600 "$srcdir/sysctl.conf" "$pkgdir/etc/sysctl.d/05-grsecurity.conf"
-
-  # Copy kernel module blacklist
-  install -Dm600 "$srcdir/module-blacklist.conf" "$pkgdir/etc/modprobe.d/dma.conf"
-
-  # Copy current grsec patch
-  install -Dm644 "$srcdir/$_grsec_patch" \
-    "$pkgdir/usr/share/doc/$pkgname/$_grsec_patch"
+  # add vmlinux
+  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux"
 }
 
-package_linux-grsec-headers() {
-  true && pkgdesc="Header files and scripts for building modules for linux kernel with grsecurity/PaX patches"
-  provides=('kernel26-grsec-headers')
-  conflicts=('kernel26-grsec-headers')
-  replaces=('kernel26-grsec-headers')
-  
-  cd "$srcdir/linux-$_basekernel"
+_package-headers() {
+  pkgdesc="Header files and scripts for building modules for ${pkgbase/linux/Linux} kernel"
 
   install -dm755 "${pkgdir}/usr/lib/modules/${_kernver}"
 
+  cd "${srcdir}/${_srcname}"
   install -D -m644 Makefile \
     "${pkgdir}/usr/lib/modules/${_kernver}/build/Makefile"
   install -D -m644 kernel/Makefile \
@@ -221,7 +181,7 @@ package_linux-grsec-headers() {
   mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/include"
 
   for i in acpi asm-generic config crypto drm generated keys linux math-emu \
-    media net pcmcia scsi sound trace uapi video xen; do
+    media net pcmcia scsi soc sound trace uapi video xen; do
     cp -a include/${i} "${pkgdir}/usr/lib/modules/${_kernver}/build/include/"
   done
 
@@ -292,15 +252,22 @@ package_linux-grsec-headers() {
   cp drivers/media/tuners/*.h "${pkgdir}/usr/lib/modules/${_kernver}/build/drivers/media/tuners/"
 
   # add xfs and shmem for aufs building
-  mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/fs/xfs/libxfs"
+  mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/fs/xfs"
   mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/mm"
-  cp fs/xfs/libxfs/xfs_sb.h "${pkgdir}/usr/lib/modules/${_kernver}/build/fs/xfs/libxfs/xfs_sb.h"
+  # removed in 3.17 series
+  # cp fs/xfs/xfs_sb.h "${pkgdir}/usr/lib/modules/${_kernver}/build/fs/xfs/xfs_sb.h"
 
   # copy in Kconfig files
   for i in $(find . -name "Kconfig*"); do
     mkdir -p "${pkgdir}"/usr/lib/modules/${_kernver}/build/`echo ${i} | sed 's|/Kconfig.*||'`
     cp ${i} "${pkgdir}/usr/lib/modules/${_kernver}/build/${i}"
   done
+
+  # add objtool for external module building and enabled VALIDATION_STACK option
+  if [ -f tools/objtool/objtool ];  then
+      mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/tools/objtool"
+      cp -a tools/objtool/objtool ${pkgdir}/usr/lib/modules/${_kernver}/build/tools/objtool/ 
+  fi
 
   chown -R root.root "${pkgdir}/usr/lib/modules/${_kernver}/build"
   find "${pkgdir}/usr/lib/modules/${_kernver}/build" -type d -exec chmod 755 {} \;
@@ -319,17 +286,33 @@ package_linux-grsec-headers() {
 
   # remove unneeded architectures
   rm -rf "${pkgdir}"/usr/lib/modules/${_kernver}/build/arch/{alpha,arc,arm,arm26,arm64,avr32,blackfin,c6x,cris,frv,h8300,hexagon,ia64,m32r,m68k,m68knommu,metag,mips,microblaze,mn10300,openrisc,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,unicore32,um,v850,xtensa}
+  
+  # remove a files already in linux-docs package
+  rm -f "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/kbuild/Kconfig.recursion-issue-01"
+  rm -f "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/kbuild/Kconfig.recursion-issue-02"
+  rm -f "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/kbuild/Kconfig.select-break"
 }
 
-sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
-            'SKIP'
-            '4b4a4dfa81d559f40516676c22bab00e1876538bb507b42606d7a39dc5b0055a'
-            'SKIP'
-            '7636e64adaf6b7fbfa7c0b2f69f4e0657b008f2bb0d4f2603a76fe763e810b4f'
-            'SKIP'
-            '9be4a343b99e3afc2873151601c052cd1d1ecff7122c8c38f2bf37cc7344ac15'
-            '48733ba1e14237fa1d22bf7fd1f1d3e2355ed9bd4683712da9d124c702618aaf'
-            'ca7e718375b3790888756cc0a64a7500cd57dddb9bf7e10a0df22c860d91f74d'
-            '10479bae8a966f0aedbea5ddf24bb6e7da120c705099e9098990224e9f16eb03'
-            '520fb5c0b117e2abf6378c7677ab905be89293350661f895dd7b7a06d3622cb3')
+_package-docs() {
+  pkgdesc="Kernel hackers manual - HTML documentation that comes with the ${pkgbase/linux/Linux} kernel"
 
+  cd "${srcdir}/${_srcname}"
+
+  mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build"
+  cp -al Documentation "${pkgdir}/usr/lib/modules/${_kernver}/build"
+  find "${pkgdir}" -type f -exec chmod 444 {} \;
+  find "${pkgdir}" -type d -exec chmod 755 {} \;
+
+  # remove a file already in linux package
+  rm -f "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/DocBook/Makefile"
+}
+
+pkgname=("${pkgbase}" "${pkgbase}-headers" "${pkgbase}-docs")
+for _p in ${pkgname[@]}; do
+  eval "package_${_p}() {
+    $(declare -f "_package${_p#${pkgbase}}")
+    _package${_p#${pkgbase}}
+  }"
+done
+
+# vim:set ts=8 sts=2 sw=2 et:
